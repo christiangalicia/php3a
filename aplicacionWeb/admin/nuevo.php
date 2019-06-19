@@ -1,10 +1,18 @@
-<?php 
-include_once './backend/modelo/BD.php';
-include_once './backend/modelo/MNoticias.php';
-include_once './backend/controlador/CNoticias.php';
-$controlador = new CNoticias();
-$id = $_GET["id"];
-$noticia = $controlador->mostrarNoticia($id);
+<?php
+include_once '../backend/modelo/BD.php';
+include_once '../backend/modelo/MAdmin.php';
+include_once '../backend/modelo/MGaleria.php';
+include_once '../backend/controlador/CAdmin.php';
+include_once '../backend/controlador/CGaleria.php';
+$galeria= new CGaleria();
+session_start();
+if(!isset($_SESSION["autentificado"])){
+    header("Location: index.php");
+}
+if(isset($_POST["nombre"]) && isset($_FILES["imagen"])){
+    $galeria->subirFotoNueva($_FILES["imagen"], $_POST["nombre"]);
+    header("Location: panel.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -15,12 +23,11 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title><?php echo $noticia["titulo"] ?></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="style/style.css"/>
-        <link rel="stylesheet" href="style/font-awesome.min.css">
+        <link rel="stylesheet" href="../style/style.css"/>
+        <link rel="stylesheet" href="../style/font-awesome.min.css">
     </head>
     <body >
         <div class="fixed">
@@ -31,11 +38,8 @@ and open the template in the editor.
                         <div class="col-6">
                             <nav>
                                 <ul>
-                                    <li><a href="#">Lorem.</a></li>
-                                    <li><a href="#">Quas.</a></li>
-                                    <li ><a href="#">Ratione?</a></li>
-                                    <li class="active"><a href="#">Quis.</a></li>
-                                    <li><a href="#">Voluptatem.</a></li>
+                                    <li><a href="../">Regresar.</a></li>
+                                    <li><a href="salir.php"><i class="fa fa-power-off"></i></a></li>
                                 </ul>
                             </nav>
 
@@ -53,30 +57,29 @@ and open the template in the editor.
         <br>
         <br>
         <br>
-        <div class="container">
+         <div class="container">
             <div class="row">
-                <div class="col-12">
-                    <div class="galeria">
-                    <h2><?php echo $noticia["titulo"] ?></h2>
+                <div class="col-12 titulos">
+                    <h2>Bienvenido <?php echo $_SESSION["autentificado"]["nombre"] ?></h2>
                     
+                    <hr>
+                   <div  style="border: 1px solid red">
+                    
+                        <h1>Nueva foto</h1>
+                        <form method="post" action="nuevo.php" enctype="multipart/form-data">
+                            Nombre:<input type="text" name="nombre"><br><hr>
+                            Imagen: <input type="file" name="imagen" accept="image/*">
+                            <br>
+                            <input type="submit" value="Enviar">
+                            <hr>
+                        </form>
+                    </div>
+
                 </div>
             </div>
-           
-            <div class="row">
-                <div class="col-12">
-                    <div class="foto">
-                    <img src="<?php echo $noticia["url"] ?>" alt="">
-                    
-                    </div>
-                    <div class="">
-                       <?php echo $noticia["noticia"] ?>.
-                    </div>
-                </div>
-                            </div>
-            </div>
-            
-        </div>
-    
+      
+        <br>
+        <br>
         <footer>
             <div class="container">
                 <div class="row">

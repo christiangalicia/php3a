@@ -10,7 +10,7 @@ class BD {
     protected $conn;
 
     public function __construct() {
-
+       
         try {
             $this->conn = new PDO("mysql:host=$this->servername;dbname=$this->database", $this->username, $this->password);
             // set the PDO error mode to exception

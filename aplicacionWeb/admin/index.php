@@ -1,10 +1,16 @@
-<?php 
-include_once './backend/modelo/BD.php';
-include_once './backend/modelo/MNoticias.php';
-include_once './backend/controlador/CNoticias.php';
-$controlador = new CNoticias();
-$id = $_GET["id"];
-$noticia = $controlador->mostrarNoticia($id);
+<?php
+include_once '../backend/modelo/BD.php';
+include_once '../backend/modelo/MAdmin.php';
+include_once '../backend/controlador/CAdmin.php';
+ session_start();
+$admin= new CAdmin();
+if(isset($_POST["usuario"]) && isset($_POST["password"])){
+    $admin->autentificar($_POST["usuario"], $_POST["password"]);
+}
+
+if(isset($_SESSION["autentificado"])){
+    header("Location: panel.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -15,12 +21,11 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title><?php echo $noticia["titulo"] ?></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="style/style.css"/>
-        <link rel="stylesheet" href="style/font-awesome.min.css">
+        <link rel="stylesheet" href="../style/style.css"/>
+        <link rel="stylesheet" href="../style/font-awesome.min.css">
     </head>
     <body >
         <div class="fixed">
@@ -31,11 +36,8 @@ and open the template in the editor.
                         <div class="col-6">
                             <nav>
                                 <ul>
-                                    <li><a href="#">Lorem.</a></li>
-                                    <li><a href="#">Quas.</a></li>
-                                    <li ><a href="#">Ratione?</a></li>
-                                    <li class="active"><a href="#">Quis.</a></li>
-                                    <li><a href="#">Voluptatem.</a></li>
+                                    <li><a href="../">Regresar.</a></li>
+                                    
                                 </ul>
                             </nav>
 
@@ -57,7 +59,7 @@ and open the template in the editor.
             <div class="row">
                 <div class="col-12">
                     <div class="galeria">
-                    <h2><?php echo $noticia["titulo"] ?></h2>
+                    <h2>Administrador</h2>
                     
                 </div>
             </div>
@@ -65,18 +67,27 @@ and open the template in the editor.
             <div class="row">
                 <div class="col-12">
                     <div class="foto">
-                    <img src="<?php echo $noticia["url"] ?>" alt="">
                     
+                        <form method="post" action="index.php">
+                            Usuario: <br>
+                            <input type="text" name="usuario">
+                            <br>
+                            Password: <br>
+                            <input type="password" name="password">
+                            <br>
+                            <input type="submit" value="Entrar">
+                        </form>
                     </div>
-                    <div class="">
-                       <?php echo $noticia["noticia"] ?>.
-                    </div>
+                    
                 </div>
                             </div>
             </div>
             
         </div>
-    
+        <br>
+        <br>
+        <br>
+        <br>
         <footer>
             <div class="container">
                 <div class="row">

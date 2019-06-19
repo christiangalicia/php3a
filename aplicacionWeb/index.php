@@ -2,8 +2,10 @@
 include_once './backend/modelo/BD.php';
 include_once './backend/modelo/MGaleria.php';
 include_once './backend/modelo/MNoticias.php';
-include_once './backend/controlador/Controlador.php';
-$controlador = new Controlador();
+include_once './backend/controlador/CGaleria.php';
+include_once './backend/controlador/CNoticias.php';
+$cNoticias= new CNoticias();
+$cGaleria= new CGaleria();
 ?>
 
 <!DOCTYPE html>
@@ -92,7 +94,7 @@ and open the template in the editor.
             </div>
             <div class="galeria">
                 <div class="row">
-                    <?php echo $controlador->mostrarGaleriaPrincipal(); ?>
+                    <?php echo $cGaleria->mostrarGaleriaPrincipal(); ?>
                 </div>
                 
 
@@ -107,7 +109,7 @@ and open the template in the editor.
 
                 <div class="row team">
                     
-                    <?php echo $controlador->mostrarNoticiasPrincipal() ?>
+                    <?php echo $cNoticias->mostrarNoticiasPrincipal() ?>
                 </div>
             </div>
         </div>
